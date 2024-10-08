@@ -1,5 +1,6 @@
 import { Breadcrumbs } from "@/components/breadcrumbs";
 import PageWrapper from "@/components/page-wrapper";
+import CreateRecipeFormComponent from "@/components/recipes/create-recipe-form";
 import React from "react";
 
 
@@ -8,11 +9,12 @@ const CreateRecipe = () => {
         { title: 'Dashboard', link: '/dashboard' },
         { title: 'Create Recipes', link: '/dashboard/create-recipe' }
       ];
+      
     return (
        <PageWrapper>
         <div className="space-y-4">
             <Breadcrumbs items={breadcrumbItems} />
-            <h1>Create Recipe Section</h1>
+            <CreateRecipeFormComponent />
         </div>
        </PageWrapper>
     );
