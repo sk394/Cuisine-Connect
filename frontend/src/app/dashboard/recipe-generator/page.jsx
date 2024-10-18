@@ -4,16 +4,21 @@ import PageWrapper from "@/components/page-wrapper";
 import ShowRecipes from "@/components/recipes/show-recipes";
 import React from "react";
 
-const RecipeGeneratorPage = async () => {
+const RecipeGeneratorPage = async ({searchParams}) => {
     const breadcrumbItems = [
         { title: 'Dashboard', link: '/dashboard' },
         { title: 'Recipe Generator', link: '/dashboard/recipe-generator' }
       ];
-    const recipes = await getAllRecipes();
+    const page = Number(searchParams.page) || 1;
+    const limit = 10;
+    const {data:recipes, meta} = await getAllRecipes(page, limit);
+    console.log(meta);
     return (
        <PageWrapper>
+        <div className="pl-20">
          <Breadcrumbs items={breadcrumbItems} />
-             <ShowRecipes data={recipes?.data} />      
+             <ShowRecipes data={recipes} pagination={meta}/> 
+        </div>     
        </PageWrapper>
     );
 };

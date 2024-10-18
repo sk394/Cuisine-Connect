@@ -12,7 +12,7 @@ const CreateRecipe = () => {
       
     return (
        <PageWrapper>
-        <div className="space-y-4">
+        <div className="space-y-4 pl-20">
             <Breadcrumbs items={breadcrumbItems} />
             <CreateRecipeFormComponent />
         </div>

@@ -7,11 +7,14 @@ import { useToast } from '@/hooks/use-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createRecipe } from '@/app/api/recipe';
 import { Textarea } from '../ui/textarea';
+import { useSession } from 'next-auth/react';
 
 const CreateRecipeFormComponent = () => {
   const queryClient = useQueryClient();
   const { register, handleSubmit, reset } = useForm({});
   const {toast} = useToast();
+
+  const {data: session} = useSession();
 
   // mutation (creation of recipe)
   const mutation = useMutation({
@@ -34,37 +37,11 @@ const CreateRecipeFormComponent = () => {
   });
   
 
-//   const onSubmit = async (data) => {
-//     try {
-//       const response = await fetch('http://localhost:4000/api/recipes', {
-//         method: 'POST',
-//         headers: {
-//           'Content-Type': 'application/json',
-//         },
-//         body: JSON.stringify({
-//           ...data,
-//           ingredients: data.ingredients.split(',').map(item => item.trim()),
-//         }),
-//       });
-//       if (!response.ok) throw new Error('Failed to create recipe');
-//       toast({
-//         title: "Success",
-//         description: "Recipe created successfully",
-//       });
-//       reset();
-//     } catch (error) {
-//       toast({
-//         title: "Error",
-//         description: "Failed to create recipe",
-//         variant: "destructive",
-//       });
-//     }
-//   };
-
     const onSubmit = (data) => {
         mutation.mutate({
             ...data,
             ingredients: data.ingredients.split(',').map(item => item.trim()),
+            userId: session?.user?.sub
         });
     }
 

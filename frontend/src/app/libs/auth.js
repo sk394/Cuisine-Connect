@@ -55,7 +55,6 @@ export const authOptions = {
         if (!passwordMatch) {
           throw new Error("Incorrect password");
         }
-
         return user;
       },
     }),
@@ -70,6 +69,19 @@ export const authOptions = {
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
     }),
   ],
+  callbacks: {
+    async jwt({ token, trigger, session, user }) {
+      if (trigger === "update" && session) {
+        return { ...token, ...session?.user };
+      }
+
+      return { ...token, ...user };
+    },
+    async session({ session, token, user }) {
+      session.user = token;
+      return session;
+    },
+  },
 
   // debug: process.env.NODE_ENV === "development",
 };
