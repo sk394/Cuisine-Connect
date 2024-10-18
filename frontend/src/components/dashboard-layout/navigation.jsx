@@ -4,9 +4,13 @@ import { signOut, useSession } from "next-auth/react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import Link from "next/link";
+
 
 const Navigation = () => {
     const {data:session} = useSession();
+
+
     return session ?(
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -31,10 +35,14 @@ const Navigation = () => {
                 <DropdownMenuSeparator />
                 <DropdownMenuGroup>
                     <DropdownMenuItem>
-                        Profile
+                        <Link href="/dashboard/profile">
+                            Profile
+                        </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem>
-                        Settings
+                    <Link href="/dashboard/my-recipes">
+                           My Recipes
+                        </Link>
                     </DropdownMenuItem>
                 </DropdownMenuGroup>
                 <DropdownMenuSeparator />

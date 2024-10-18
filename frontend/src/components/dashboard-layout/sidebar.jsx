@@ -50,13 +50,13 @@ const Sidebar = ({ className }) => {
                         <Link href="/" className="font-mono text-lg font-bold">RA</Link>}
                 </div>
             </div>
-            <ChevronLeft
+            {/* <ChevronLeft
                 className={cn(
                     'absolute -right-3 top-10 z-50  cursor-pointer rounded-full border bg-background text-3xl text-foreground',
                     isMinimized && 'rotate-180'
                 )}
                 onClick={handleToggle}
-            />
+            /> */}
             <div className="space-y-4 py-4">
                 <div className="px-3 py-2">
                     <div className="mt-3 space-y-1">

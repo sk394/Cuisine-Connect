@@ -9,9 +9,11 @@ import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 import { searchRecipes } from '@/app/api/recipe';
 import SkeletonLoader from '@/app/skeleton';
+import PaginationComponent from '../pagination-recipes';
+import { Separator } from '../ui/separator';
 
 
-const ShowRecipes = ({data}) => {
+const ShowRecipes = ({data, pagination}) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [selectedRecipe, setSelectedRecipe] = useState(null);
 
@@ -65,7 +67,12 @@ const ShowRecipes = ({data}) => {
                   )}
                 </Button>
               ))}
+              <Separator className="mb-3" />
+               <PaginationComponent currentPage={pagination.currentPage} totalPages={pagination.totalPages} baseUrl="/dashboard/recipe-generator" />
             </ScrollArea>
+             <div className="flex justify-center mt-0">
+              This will contain bookmarked Recipes.
+            </div>
           </CardContent>
         </Card>
         <Card className="md:col-span-2">
@@ -102,7 +109,7 @@ const ShowRecipes = ({data}) => {
                   <p>{selectedRecipe.instructions}</p>
                 </div>
                 <div className="flex flex-col items-center">
-                    <Image src="/food.jpg" alt={selectedRecipe.title} width={300} height={300} sizes="(max-width: 768px) 100vw, 33vw"/>
+                    <img src={selectedRecipe?.imageName} alt={selectedRecipe.imageName} className="w-full h-auto object-cover rounded-lg  px-2" />
                     <caption className="text-xs text-muted-foreground py-1 italic">{selectedRecipe.title}</caption>
                 </div>
               </div>

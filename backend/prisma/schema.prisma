@@ -13,6 +13,11 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Role{
+  USER
+  ADMIN
+}
+
 // User with id as int increment, name as string, and email as string
 model User {
   id            String    @id @default(cuid())
@@ -21,9 +26,16 @@ model User {
   emailVerified DateTime?
   password      String?
   image         String?
+  role          Role      @default(USER)
   accounts      Account[]
   sessions      Session[]
-  bookmarks    Bookmark[]
+  bookmarks     Bookmark[]
+  recipes       Recipe[]
+  ratings       Rating[]
+  comments      Comment[]
+  favoriteFood  String?  @default("pizza")
+  foodPreferences String[] @default(["pizza"])
+  hometown     String? @default("New York")
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
@@ -71,10 +83,15 @@ model VerificationToken {
 model Recipe {
   id           String     @id @default(cuid())
   title        String
+  postStatus   String     @default("draft")
   ingredients  String[]
   instructions String
   imageName    String
+  userId       String
   bookmarks    Bookmark[]
+  ratings      Rating[]
+  comments     Comment[]
+  user         User       @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt    DateTime   @default(now())
   updatedAt    DateTime   @updatedAt
 }
@@ -89,4 +106,28 @@ model Bookmark {
   updatedAt DateTime @updatedAt
 
   @@unique([userId, recipeId])
+}
+
+model Rating {
+  id          String @id @default(cuid())
+  value       Int
+  userId      String
+  recipeId    String
+  user        User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe      Recipe @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([userId, recipeId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  userId    String
+  recipeId  String
+  content   String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  recipe    Recipe   @relation(fields: [recipeId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
