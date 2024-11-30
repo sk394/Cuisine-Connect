@@ -21,11 +21,9 @@ export default async function RootLayout({ children}){
         suppressHydrationWarning={true}
       >
         <NextTopLoader showSpinner={false} />
-        <SmoothScrollProvider>
           <Providers> 
             {children}
           </Providers>
-        </SmoothScrollProvider>
         <Toaster />
       </body>
     </html>

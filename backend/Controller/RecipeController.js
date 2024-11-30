@@ -30,6 +30,7 @@ export const fetchRecipes = async (req, res) => {
                     id: true,
                     name: true,
                     role: true,
+                    
                 }
             },
         }
@@ -55,7 +56,7 @@ export const fetchRecipes = async (req, res) => {
 }
 
 export const createRecipe = async (req, res) => {
-    const { title, postStatus, ingredients, instructions, imageName, userId } = req.body;
+    const { title, postStatus, ingredients, instructions,isVideo, imageName, userId } = req.body;
 
     const newRecipe = await prisma.recipe.create({
         data: {
@@ -63,6 +64,7 @@ export const createRecipe = async (req, res) => {
             postStatus,
             ingredients,
             instructions,
+            isVideo,
             imageName,
             userId
         }
@@ -153,7 +155,7 @@ export const searchRecipe = async (req, res) => {
 
 // fetch single recipe
 export const fetchSingleRecipe = async (req, res) => {
-    const id = String(req.params.id);
+    const id = req.params.id;
     const recipe = await prisma.recipe.findUnique({
         where: {
             id

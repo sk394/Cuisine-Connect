@@ -20,6 +20,7 @@ const SidebarNav = ({items, setOpen, isMobileNav=false,}) =>{
             item.href && (
               <Tooltip key={index}>
                 <TooltipTrigger asChild>
+                {isMobileNav || (!isMinimized && !isMobileNav) ? (
                   <Link
                     href={item.disabled ? '/' : item.href}
                     className={cn(
@@ -32,12 +33,11 @@ const SidebarNav = ({items, setOpen, isMobileNav=false,}) =>{
                     }}
                   >
                     {item?.icon}
-                    {isMobileNav || (!isMinimized && !isMobileNav) ? (
+                     
                       <span className="mr-2 truncate">{item.title}</span>
-                    ) : (
-                      ''
-                    )}
-                  </Link>
+                    
+                  </Link>)
+               : null}
                 </TooltipTrigger>
                 <TooltipContent
                   align="center"
