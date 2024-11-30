@@ -88,6 +88,7 @@ model Recipe {
   instructions String
   imageName    String
   userId       String
+  isVideo      Boolean    @default(false)
   bookmarks    Bookmark[]
   ratings      Rating[]
   comments     Comment[]

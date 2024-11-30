@@ -8,7 +8,6 @@ router.get("/feed", getRecipesForFeed);
 router.get("/user/:userId", getUserRecipes);
 router.get("/search", searchRecipe);
 router.get("/single/:id", fetchSingleRecipe);
-router.get
 router.post("/", createRecipe);
 router.put("/:id", updateRecipe);
 router.delete("/:id/:userId", deleteRecipe);

@@ -2,8 +2,8 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../libs/auth";
 import PageWrapper from "@/components/page-wrapper";
 import { getAllRecipesFeed } from "../api/recipe";
-import RecipesFeed from "@/components/recipes/recipes-feed";
 import { getRecipeRatingByUserId } from "../api/rating";
+import RecipePostWrapper from "@/components/recipes/recipe-view-wrapper";
 
 
 const DashboardPage = async () => {
@@ -24,10 +24,12 @@ const DashboardPage = async () => {
             userRating: recipesWithUserRating.get(recipe.id) || 0 
         };
     });
-
+    
     return (
         <PageWrapper>
-            <RecipesFeed recipePosts={recipesWithRatings} />
+            <div className="absolute top-0 right-40 left-40 ml-10 h-screen overflow-hide">
+                <RecipePostWrapper posts={recipesWithRatings} />
+            </div> 
         </PageWrapper>
     );
 }

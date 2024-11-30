@@ -5,6 +5,7 @@ import PageWrapper from "@/components/page-wrapper";
 import { getServerSession } from "next-auth";
 import React from "react";
 import MyRecipesTable from "@/components/my-recipe-table";
+import { SmoothScrollProvider } from "../../../../providers/smooth-scroll-provider";
 
 
 const MyRecipes = async () => {
@@ -26,12 +27,14 @@ const MyRecipes = async () => {
     const userRecipes = await getUserPostedRecipes(session?.user?.sub);
       
     return (
+        <SmoothScrollProvider>
        <PageWrapper>
         <div className="space-y-4 pl-20">
             <Breadcrumbs items={breadcrumbItems} />
             <MyRecipesTable recipes={userRecipes} />
         </div>
        </PageWrapper>
+       </SmoothScrollProvider>
     );
 };
 

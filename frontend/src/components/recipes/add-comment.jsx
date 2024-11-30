@@ -52,8 +52,7 @@ const AddComment = ({recipeId}) =>{
     };
 
     return (
-        <div className="mb-2 ">
-        <div className="w-full flex mb-2">
+        <div className="w-full flex mb-4">
             <Form {...form}>
             <form className="w-full flex items-center" onSubmit={form.handleSubmit(onSubmit)}>
                 <FormField
@@ -63,22 +62,16 @@ const AddComment = ({recipeId}) =>{
                              <FormItem>
                                 <FormLabel>{""}</FormLabel>
                                 <FormControl>
-                                    <Input className="mr-2" placeholder="Add your comment..." {...field} />
+                                    <Input className="flex-grow  bg-white text-black" placeholder="Add your comment..." {...field} />
                                         </FormControl>
                                     </FormItem>
                                 )}
                 />
-                <SubmitButton message="Post" className="ml-6" />
+                <SubmitButton message="Post" className="ml-6 mt-2" />
             </form>
             </Form>
         </div>
-        {comments?.map((comment) => (
-            <div key={comment.id} className="mb-2 px-1">
-                <span className="font-semibold">{comment?.user?.name}: </span>
-                {comment.content}
-            </div>
-        ))}
-    </div>
+    
     );
 }
 

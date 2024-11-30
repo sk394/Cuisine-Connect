@@ -16,30 +16,18 @@ import { useSession } from "next-auth/react";
 import { deleteRecipe, updateRecipe } from "@/app/api/recipe";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import { useState } from "react";
+import { EditRecipeSheet } from "./recipes/edit-recipe-dialog";
 
 const MyRecipesTable = ({recipes}) => {
     const queryClient = useQueryClient();
     const {data: session} = useSession();
     const router = useRouter();
     const {toast} = useToast();
+    const [open, setOpen] = useState(false);
+    const [recipe_id, setRecipeToEdit] = useState(null);
 
-    const editMutation = useMutation({
-        mutationFn: (recipe) => updateRecipe(recipe),
-        onSuccess: (data) => {
-          queryClient.invalidateQueries('recipes');
-          toast({
-            title: 'Recipe updated successfully.',
-          });
-          router.refresh(); 
-        },
-        onError: (error) => {
-          toast({
-            title: 'Failed to update.',
-            description: error.message,
-            variant: "destructive",
-          });
-        },
-      });
+    
 
     const deleteMutation = useMutation({
         mutationFn: deleteRecipe,
@@ -59,12 +47,7 @@ const MyRecipesTable = ({recipes}) => {
         },
     });
 
-    const handleEdit = (id) => {
-        editMutation.mutate({
-        ...recipes.find(recipe => recipe.id === id),
-        userId: session?.user?.sub
-        });
-    }
+    
 
     const handleDelete = (id) => {
         deleteMutation.mutate({
@@ -72,7 +55,7 @@ const MyRecipesTable = ({recipes}) => {
             userId: session?.user?.sub
         });
     }
-
+console.log(recipes);
   return (
     <div className="container mx-auto py-8">
       <h1 className="text-3xl font-bold mb-6 text-center justify-between">My Recipes</h1>
@@ -92,7 +75,7 @@ const MyRecipesTable = ({recipes}) => {
             {recipes.map((recipe) => (
               <TableRow key={recipe.id}>
                 <TableCell>
-                  <img src={recipe?.imageName} alt={recipe.imageName} className="w-full h-auto object-cover rounded-lg  px-2" />
+                  {recipe?.isVideo ? <pre>{"Video"}</pre> :<img src={recipe?.imageName} alt={recipe.imageName} className="w-20 h-auto object-cover rounded-lg  px-2" />}
                 </TableCell>
                 <TableCell className="font-medium">{recipe.title}</TableCell>
                 <TableCell>{recipe.createdAt}</TableCell>
@@ -102,7 +85,10 @@ const MyRecipesTable = ({recipes}) => {
                   <Button
                     variant="outline"
                     size="sm"
-                    onClick={() => handleEdit(recipe.id)}
+                    onClick={() => {
+                      setRecipeToEdit(recipe);
+                      setOpen(true);
+                    }}
                     className="mr-2"
                   >
                     <Pencil className="w-4 h-4 mr-2" />
@@ -121,6 +107,7 @@ const MyRecipesTable = ({recipes}) => {
             ))}
           </TableBody>
         </Table>
+        {open && <EditRecipeSheet setOpen={setOpen} recipe = {recipe_id} />}
       </div>
     </div>
   )

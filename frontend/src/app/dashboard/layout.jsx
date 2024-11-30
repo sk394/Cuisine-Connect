@@ -1,12 +1,13 @@
 import Header from "@/components/dashboard-layout/header";
 import Sidebar from "@/components/dashboard-layout/sidebar";
+import { headers } from "next/headers";
 
 export const metadata={
-    title: 'Recipe Dashboard',
+    title: 'Cuisine Connect',
     description:'Recipe Dashboard',
 }
 
-export default function DashboardLayout({children}){
+export default function DashboardLayout({children}){ 
     return (
         <div className="flex">
             <Sidebar className="fixed" />
